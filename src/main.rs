@@ -5,9 +5,11 @@ use snailquote::unescape;
 use structopt::StructOpt;
 
 // i don"t really understand this but i think its extending Clifrom StructOpt
-#[derive(StructOpt)]
+#[derive(Debug, StructOpt)]
 struct Cli {
     // Then name of the person shoresy is going to ball bust passed as an argument
+    // We use this weird looking syntax to set defaults on our structopt
+    #[structopt(default_value = "loser")]
     name: String,
 }
 
