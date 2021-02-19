@@ -1,7 +1,6 @@
 // these are libraries like npm packages
 use rand::seq::SliceRandom;
 use rand::thread_rng;
-use snailquote::unescape;
 use structopt::StructOpt;
 
 // i don"t really understand this but i think its extending Clifrom StructOpt
@@ -21,10 +20,13 @@ struct Target {
 
 fn main() {
     let args = Cli::from_args();
+
     // get the name from args
+    // notice the & in front of the variable here
     let name = &args.name;
 
     // let us create our target
+    // we'll do it with a struct to learn the basics
 
     let target = Target {
         name: name.to_string(), // it really wanted me to add to_string() to this to be extra safe,
@@ -75,12 +77,18 @@ fn main() {
     // it returns in the format (Some(yourstring)) so we need to .unwrap() it twice (?)
     // then we can run the two replaces in place
 
-    let random_line = unescape(concatenated.choose(&mut rng).unwrap()).unwrap();
+    let random_line = concatenated
+        .choose(&mut rng)
+        .unwrap()
+        .to_string()
+        // so it turns out that rust or terminal doesn't like the apostrophe
+        // in literal `'` or unicode `\u{0027}`
+        // so we'll use Curly instead at `\u{2019}` and just replace it
+        .replace("\'", "\u{2019}")
+        .replace("{collateral}", &collateral.name)
+        .replace("{target}", &target.name);
 
-    println!(
-        "{:?}",
-        random_line
-            .replace("{collateral}", &collateral.name)
-            .replace("{target}", &target.name)
-    );
+    // there's probably a better way of doing this but we're not gonna sweat it
+
+    println!("{:?}", r#random_line);
 }
