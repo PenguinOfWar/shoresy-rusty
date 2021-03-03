@@ -3,7 +3,7 @@ use rand::seq::SliceRandom;
 use rand::thread_rng;
 use structopt::StructOpt;
 
-// i don"t really understand this but i think its extending Clifrom StructOpt
+// i don't really understand this but i think its extending Cli from StructOpt
 #[derive(Debug, StructOpt)]
 struct Cli {
     // Then name of the person shoresy is going to ball bust passed as an argument
